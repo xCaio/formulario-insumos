@@ -1,5 +1,5 @@
-'use client';
-import { useState } from 'react';
+'use client'
+import { useState } from 'react'
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -9,21 +9,21 @@ export default function Home() {
     pn: '',
     setor: '',
     centroCusto: '',
-    observacao: ''
-  });
+    observacao: '',
+  })
 
   const handleChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value })
 
   const handleSubmit = async e => {
-    e.preventDefault();
+    e.preventDefault()
     const res = await fetch('/api/enviar-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
-    });
+    })
     if (res.ok) {
-      alert('Solicitação enviada!');
+      alert('Solicitação enviada!')
       setFormData({
         insumo: '',
         quantidade: '',
@@ -31,23 +31,35 @@ export default function Home() {
         pn: '',
         setor: '',
         centroCusto: '',
-        observacao: ''
-      });
+        observacao: '',
+      })
     } else {
-      alert('Erro ao enviar solicitação');
+      alert('Erro ao enviar solicitação')
     }
-  };
+  }
 
   return (
-    <main style={{ maxWidth: 500, margin: 'auto', padding: 20 }}>
-      <h1>Formulário de Solicitação</h1>
-      <form onSubmit={handleSubmit}>
+    <main className="max-w-xl mx-auto p-6 bg-white rounded-md shadow-lg mt-12">
+      {/* Logo CABTEC no topo, centralizada */}
+      <div className="flex justify-center mb-6">
+        <img
+          src="https://cabtec.com.br/wp-content/uploads/2024/05/Ativo-5.png"
+          alt="Logo CABTEC"
+          className="h-20 object-contain"
+        />
+      </div>
+
+      <h1 className="text-3xl font-extrabold mb-6 text-black text-center">
+        Solicitação de Insumos
+      </h1>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
         {[
-          { name: 'insumo', type: 'text', placeholder: 'Tipo de Insumo (ex: Etiqueta)' },
+          { name: 'insumo', type: 'text', placeholder: 'Tipo de Insumo' },
           { name: 'quantidade', type: 'number', placeholder: 'Quantidade' },
-          { name: 'pa', type: 'text', placeholder: 'PA (código do modelo)' },
-          { name: 'pn', type: 'text', placeholder: 'PN (quem solicitou)' },
-          { name: 'setor', type: 'text', placeholder: 'Setor de entrega' },
+          { name: 'pa', type: 'text', placeholder: 'Código PA' },
+          { name: 'pn', type: 'text', placeholder: 'Código PN' },
+          { name: 'setor', type: 'text', placeholder: 'Setor de Entrega' },
           { name: 'centroCusto', type: 'text', placeholder: 'Centro de Custo' },
         ].map(field => (
           <input
@@ -58,7 +70,7 @@ export default function Home() {
             onChange={handleChange}
             placeholder={field.placeholder}
             required
-            style={{ width: '100%', padding: 8, margin: '8px 0' }}
+            className="w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-cabtecOrange focus:border-cabtecOrange transition duration-200 ease-in-out appearance-none"
           />
         ))}
         <textarea
@@ -66,12 +78,16 @@ export default function Home() {
           value={formData.observacao}
           onChange={handleChange}
           placeholder="Observações (opcional)"
-          style={{ width: '100%', padding: 8, margin: '8px 0', minHeight: 80 }}
+          rows={4}
+          className="w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-cabtecOrange focus:border-cabtecOrange transition duration-200 ease-in-out appearance-none"
         />
-        <button type="submit" style={{ padding: '10px 20px' }}>
+        <button
+          type="submit"
+          className="w-full bg-cabtecOrange text-white font-bold py-3 rounded-md hover:bg-orange-700 transition-colors duration-300"
+        >
           Enviar Solicitação
         </button>
       </form>
     </main>
-  );
+  )
 }
